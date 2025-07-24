@@ -19,6 +19,10 @@ export default {
 		},
 		extend: {
 			colors: {
+				'dark-green': 'hsl(var(--dark-green))',
+				'khaki': 'hsl(var(--khaki))',
+				'leather-brown': 'hsl(var(--leather-brown))',
+				'cafe-noir': 'hsl(var(--cafe-noir))',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -62,6 +66,10 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			fontFamily: {
+				heading: 'var(--font-heading)',
+				body: 'var(--font-body)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
