@@ -10,28 +10,28 @@ const FeaturedProducts = () => {
     {
       id: 1,
       name: 'Artisan Wallet Collection',
-      price: '$89',
+      price: 'R1,590',
       image: walletImage,
       description: 'Handcrafted leather wallets with RFID protection'
     },
     {
       id: 2,
       name: 'Executive Briefcase',
-      price: '$349',
+      price: 'R6,290',
       image: briefcaseImage,
       description: 'Premium leather briefcase for professionals'
     },
     {
       id: 3,
       name: 'Heritage Crossbody',
-      price: '$189',
+      price: 'R3,390',
       image: crossbodyImage,
       description: 'Versatile crossbody bag for everyday elegance'
     },
     {
       id: 4,
       name: 'Classic Tote',
-      price: '$259',
+      price: 'R4,690',
       image: toteImage,
       description: 'Spacious tote bag perfect for work and travel'
     }

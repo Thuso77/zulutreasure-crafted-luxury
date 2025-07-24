@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import logo from '@/assets/zulu-treasure-logo.png';
 
 const Footer = () => {
   const footerSections = [
@@ -47,7 +48,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold mb-4 font-heading">Zulu Treasure</h3>
+            <div className="flex items-center space-x-3 mb-4">
+              <img src={logo} alt="Zulu Treasure" className="h-8 w-auto" />
+              <h3 className="text-2xl font-bold font-heading">Zulu Treasure</h3>
+            </div>
             <p className="text-primary-foreground/80 mb-6 leading-relaxed">
               Crafting premium leather goods with purpose, supporting artisan communities, 
               and building a sustainable future one piece at a time.
