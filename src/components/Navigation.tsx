@@ -20,11 +20,8 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center space-x-3">
-            <img src={logo} alt="Zulu Treasure" className="h-8 w-auto" />
-            <h1 className="text-xl font-bold text-primary-foreground font-heading">
-              Zulu Treasure
-            </h1>
+          <div className="flex-shrink-0 flex items-center">
+            <img src="/lovable-uploads/85018849-d000-4c18-8f0a-840b9f29d4aa.png" alt="Zulu Treasure" className="h-12 w-auto" />
           </div>
 
           {/* Desktop Navigation */}

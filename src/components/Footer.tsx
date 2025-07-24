@@ -48,9 +48,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <div className="flex items-center space-x-3 mb-4">
-              <img src={logo} alt="Zulu Treasure" className="h-8 w-auto" />
-              <h3 className="text-2xl font-bold font-heading">Zulu Treasure</h3>
+            <div className="flex items-center mb-4">
+              <img src="/lovable-uploads/85018849-d000-4c18-8f0a-840b9f29d4aa.png" alt="Zulu Treasure" className="h-16 w-auto" />
             </div>
             <p className="text-primary-foreground/80 mb-6 leading-relaxed">
               Crafting premium leather goods with purpose, supporting artisan communities, 
