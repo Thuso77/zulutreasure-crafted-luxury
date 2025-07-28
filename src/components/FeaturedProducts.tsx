@@ -1,37 +1,44 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/contexts/CartContext';
 import walletImage from '@/assets/product-wallet.jpg';
 import briefcaseImage from '@/assets/product-briefcase.jpg';
 import crossbodyImage from '@/assets/product-crossbody.jpg';
 import toteImage from '@/assets/product-tote.jpg';
 
 const FeaturedProducts = () => {
+  const { addToCart } = useCart();
+  
   const products = [
     {
-      id: 1,
+      id: '1',
       name: 'Artisan Wallet Collection',
-      price: 'R1,590',
+      price: 1590,
+      priceDisplay: 'R1,590',
       image: walletImage,
       description: 'Handcrafted leather wallets with RFID protection'
     },
     {
-      id: 2,
+      id: '2',
       name: 'Executive Briefcase',
-      price: 'R6,290',
+      price: 6290,
+      priceDisplay: 'R6,290',
       image: briefcaseImage,
       description: 'Premium leather briefcase for professionals'
     },
     {
-      id: 3,
+      id: '3',
       name: 'Heritage Crossbody',
-      price: 'R3,390',
+      price: 3390,
+      priceDisplay: 'R3,390',
       image: crossbodyImage,
       description: 'Versatile crossbody bag for everyday elegance'
     },
     {
-      id: 4,
+      id: '4',
       name: 'Classic Tote',
-      price: 'R4,690',
+      price: 4690,
+      priceDisplay: 'R4,690',
       image: toteImage,
       description: 'Spacious tote bag perfect for work and travel'
     }
@@ -73,11 +80,17 @@ const FeaturedProducts = () => {
                 </p>
                 <div className="flex justify-between items-center">
                   <span className="text-2xl font-bold text-accent">
-                    {product.price}
+                    {product.priceDisplay}
                   </span>
                   <Button 
                     size="sm" 
                     className="btn-primary opacity-0 group-hover:opacity-100 transition-smooth"
+                    onClick={() => addToCart({
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      image_url: product.image
+                    })}
                   >
                     Add to Cart
                   </Button>

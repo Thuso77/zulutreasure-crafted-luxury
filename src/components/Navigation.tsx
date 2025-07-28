@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/contexts/CartContext';
+import { Link } from 'react-router-dom';
 import logo from '@/assets/zulu-treasure-logo.png';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getTotalItems } = useCart();
 
   const navLinks = [
     { name: 'Home', href: '#' },
@@ -41,9 +44,16 @@ const Navigation = () => {
 
           {/* Cart & Mobile menu button */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="text-primary-foreground hover:text-secondary">
-              <ShoppingBag className="h-5 w-5" />
-            </Button>
+            <Link to="/cart">
+              <Button variant="ghost" size="sm" className="text-primary-foreground hover:text-secondary relative">
+                <ShoppingBag className="h-5 w-5" />
+                {getTotalItems() > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                    {getTotalItems()}
+                  </span>
+                )}
+              </Button>
+            </Link>
             
             {/* Mobile menu button */}
             <div className="md:hidden">
