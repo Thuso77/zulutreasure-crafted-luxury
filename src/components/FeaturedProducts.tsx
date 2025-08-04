@@ -1,48 +1,30 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
-import walletImage from '@/assets/product-wallet.jpg';
-import briefcaseImage from '@/assets/product-briefcase.jpg';
-import crossbodyImage from '@/assets/product-crossbody.jpg';
-import toteImage from '@/assets/product-tote.jpg';
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const FeaturedProducts = () => {
   const { addToCart } = useCart();
-  
-  const products = [
-    {
-      id: '1',
-      name: 'Artisan Wallet Collection',
-      price: 1590,
-      priceDisplay: 'R1,590',
-      image: walletImage,
-      description: 'Handcrafted leather wallets with RFID protection'
-    },
-    {
-      id: '2',
-      name: 'Executive Briefcase',
-      price: 6290,
-      priceDisplay: 'R6,290',
-      image: briefcaseImage,
-      description: 'Premium leather briefcase for professionals'
-    },
-    {
-      id: '3',
-      name: 'Heritage Crossbody',
-      price: 3390,
-      priceDisplay: 'R3,390',
-      image: crossbodyImage,
-      description: 'Versatile crossbody bag for everyday elegance'
-    },
-    {
-      id: '4',
-      name: 'Classic Tote',
-      price: 4690,
-      priceDisplay: 'R4,690',
-      image: toteImage,
-      description: 'Spacious tote bag perfect for work and travel'
+
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ['featured-products'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('featured', true)
+        .eq('in_stock', true);
+      
+      if (error) {
+        toast.error('Failed to load products');
+        throw error;
+      }
+      
+      return data;
     }
-  ];
+  });
 
   return (
     <section className="py-20 bg-muted/30" id="shop">
@@ -57,47 +39,66 @@ const FeaturedProducts = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <Card 
-              key={product.id} 
-              className="group hover-lift border-0 shadow-card card-gradient overflow-hidden"
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-64 object-cover transition-smooth group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
-              </div>
-              
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-accent mb-2 font-heading">
-                  {product.name}
-                </h3>
-                <p className="text-foreground/70 mb-4 text-sm">
-                  {product.description}
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-accent">
-                    {product.priceDisplay}
-                  </span>
-                  <Button 
-                    size="sm" 
-                    className="btn-primary opacity-0 group-hover:opacity-100 transition-smooth"
-                    onClick={() => addToCart({
-                      id: product.id,
-                      name: product.name,
-                      price: product.price,
-                      image_url: product.image
-                    })}
-                  >
-                    Add to Cart
-                  </Button>
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <Card key={i} className="overflow-hidden animate-pulse">
+                <div className="h-64 bg-muted"></div>
+                <CardContent className="p-6">
+                  <div className="h-6 bg-muted rounded mb-2"></div>
+                  <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
+                  <div className="flex justify-between items-center">
+                    <div className="h-8 bg-muted rounded w-20"></div>
+                    <div className="h-8 bg-muted rounded w-20"></div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            products.map((product) => (
+              <Card 
+                key={product.id} 
+                className="group hover-lift border-0 shadow-card card-gradient overflow-hidden"
+              >
+                <div className="relative overflow-hidden">
+                  <img
+                    src={product.image_url || '/placeholder.svg'}
+                    alt={product.name}
+                    className="w-full h-64 object-cover transition-smooth group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+                
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold text-accent mb-2 font-heading">
+                    {product.name}
+                  </h3>
+                  <p className="text-foreground/70 mb-4 text-sm">
+                    {product.description}
+                  </p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-2xl font-bold text-accent">
+                      ${Number(product.price).toFixed(2)}
+                    </span>
+                    <Button 
+                      size="sm" 
+                      className="btn-primary opacity-0 group-hover:opacity-100 transition-smooth"
+                      onClick={() => {
+                        addToCart({
+                          id: product.id,
+                          name: product.name,
+                          price: Number(product.price),
+                          image_url: product.image_url || '/placeholder.svg'
+                        });
+                        toast.success(`${product.name} added to cart!`);
+                      }}
+                    >
+                      Add to Cart
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
 
         <div className="text-center mt-12">
