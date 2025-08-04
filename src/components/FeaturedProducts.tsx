@@ -8,22 +8,53 @@ import { toast } from 'sonner';
 const FeaturedProducts = () => {
   const { addToCart } = useCart();
 
-  const { data: products = [], isLoading } = useQuery({
+  // Fallback products in case database is unavailable
+  const fallbackProducts = [
+    {
+      id: '1',
+      name: 'Premium Leather Card Holder - Black',
+      description: 'Sleek black leather card holder with minimalist design. Features multiple card slots and our signature embossed logo.',
+      price: 45.00,
+      image_url: '/lovable-uploads/dbaf6dc3-c686-4d03-85cf-1c2ffab97ae7.png',
+      featured: true,
+      in_stock: true
+    },
+    {
+      id: '2', 
+      name: 'Signature Leather Wallet - Brown',
+      description: 'Classic brown leather wallet with traditional craftsmanship. Features multiple compartments and premium construction.',
+      price: 85.00,
+      image_url: '/lovable-uploads/cdcbdad0-1057-421b-88c4-a3267cfa2c9a.png',
+      featured: true,
+      in_stock: true
+    }
+  ];
+
+  const { data: products = fallbackProducts, isLoading, error } = useQuery({
     queryKey: ['featured-products'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('featured', true)
-        .eq('in_stock', true);
-      
-      if (error) {
-        toast.error('Failed to load products');
-        throw error;
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('featured', true)
+          .eq('in_stock', true);
+        
+        if (error) {
+          console.error('Supabase error:', error);
+          throw error;
+        }
+        
+        return data || fallbackProducts;
+      } catch (err) {
+        console.error('Failed to fetch products:', err);
+        // Return fallback products instead of throwing
+        return fallbackProducts;
       }
-      
-      return data;
-    }
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+    retryDelay: 1000
   });
 
   return (
@@ -36,6 +67,11 @@ const FeaturedProducts = () => {
           <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
             Discover our signature pieces, each one telling a story of craftsmanship and heritage.
           </p>
+          {error && (
+            <p className="text-sm text-orange-600 mt-2">
+              Showing offline products - some features may be limited
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -83,13 +119,18 @@ const FeaturedProducts = () => {
                       size="sm" 
                       className="btn-primary opacity-0 group-hover:opacity-100 transition-smooth"
                       onClick={() => {
-                        addToCart({
-                          id: product.id,
-                          name: product.name,
-                          price: Number(product.price),
-                          image_url: product.image_url || '/placeholder.svg'
-                        });
-                        toast.success(`${product.name} added to cart!`);
+                        try {
+                          addToCart({
+                            id: product.id,
+                            name: product.name,
+                            price: Number(product.price),
+                            image_url: product.image_url || '/placeholder.svg'
+                          });
+                          toast.success(`${product.name} added to cart!`);
+                        } catch (err) {
+                          console.error('Failed to add to cart:', err);
+                          toast.error('Failed to add to cart. Please try again.');
+                        }
                       }}
                     >
                       Add to Cart
