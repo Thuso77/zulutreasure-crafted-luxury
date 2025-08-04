@@ -19,7 +19,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full bg-primary/95 backdrop-blur-md z-50 shadow-card">
+    <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -34,7 +34,7 @@ const Navigation = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-primary-foreground hover:text-secondary transition-smooth px-3 py-2 text-sm font-medium"
+                  className="text-primary hover:text-secondary transition-smooth px-3 py-2 text-sm font-medium"
                 >
                   {link.name}
                 </a>
@@ -45,7 +45,7 @@ const Navigation = () => {
           {/* Cart & Mobile menu button */}
           <div className="flex items-center space-x-4">
             <Link to="/cart">
-              <Button variant="ghost" size="sm" className="text-primary-foreground hover:text-secondary relative">
+              <Button variant="ghost" size="sm" className="text-primary hover:text-secondary relative">
                 <ShoppingBag className="h-5 w-5" />
                 {getTotalItems() > 0 && (
                   <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
@@ -61,7 +61,7 @@ const Navigation = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-primary-foreground"
+                className="text-primary"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
@@ -72,12 +72,12 @@ const Navigation = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-primary/95 backdrop-blur-md">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-md">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-primary-foreground hover:text-secondary block px-3 py-2 text-base font-medium transition-smooth"
+                  className="text-primary hover:text-secondary block px-3 py-2 text-base font-medium transition-smooth"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}

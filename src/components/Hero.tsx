@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-leather-bag.jpg';
+import heroImage from '/lovable-uploads/cce4c17e-6233-4b64-9575-b83469468b90.png';
 
 const Hero = () => {
   return (
@@ -8,7 +8,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Luxury leather handbag"
+          alt="Zulu Treasure canvas and leather tote bag"
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60"></div>
